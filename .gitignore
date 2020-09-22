@@ -1,4 +1,4 @@
 log/
 .idea/
 go.sum
-./tickethub.service
+./tickethub_service.exe
