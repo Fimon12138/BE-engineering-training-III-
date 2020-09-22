@@ -1,0 +1,10 @@
+{
+	"server_host": "0.0.0.0",
+	"server_port": 8888,
+	
+	"database_host": "127.0.0.1",
+	"database_port": 3306,
+	"database_user":"root",
+	"database_password":"root",
+	"database_name":"ticket_hub"
+}
