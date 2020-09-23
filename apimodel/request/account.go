@@ -28,6 +28,6 @@ type LogIn struct {
 type SignUp struct {
 	Name      string `json:"name"`
 	Password  string `json:"password"`
-	Telephone string `json:"telepohne"`
+	Telephone string `json:"telephone"`
 	Type      string `json:"type"`
 }

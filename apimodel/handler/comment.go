@@ -34,7 +34,7 @@ func CreateComment(ctx *gin.Context) {
 func ListComment(ctx *gin.Context) {
 	var req request.ListCommentRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		msg := fmt.Sprintf("Failed to parse ListComment req:[%v]", ctx)
+		msg := fmt.Sprintf("Failed to parse ListComment req:[%v]", ctx.Request)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
@@ -59,7 +59,7 @@ func ListComment(ctx *gin.Context) {
 func UpdateComment(ctx *gin.Context) {
 	var req request.UpdateCommentRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		msg := fmt.Sprintf("Failed to parse UpdateComment req:[%v]", &ctx)
+		msg := fmt.Sprintf("Failed to parse UpdateComment req:[%v]", ctx.Request)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
