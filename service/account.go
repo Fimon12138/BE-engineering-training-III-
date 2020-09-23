@@ -130,7 +130,7 @@ func SignUp(req request.SignUp) error {
 		account := model.Account{
 			Name:       req.Name,
 			Password:   req.Password,
-			Type:       "user",
+			Type:       "merchant",
 			RelatedID:  newMerchant.ID,
 			CreateTime: time.Now(),
 			UpdateTime: time.Now(),

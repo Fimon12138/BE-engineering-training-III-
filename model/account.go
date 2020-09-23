@@ -29,7 +29,7 @@ func GetAccount(accountName string) (Account, error) {
 
 func CreateAccount(newAccount Account) (Account, error) {
 	err := config.DB.Table(enum.TABLENAME_ACCOUNT).Create(newAccount).Error
-	if err.Error != nil {
+	if err != nil {
 		return Account{}, err
 	}
 	return newAccount, nil

@@ -27,7 +27,6 @@ func main() {
 	midderwares := make([]gin.HandlerFunc, 0)
 
 	midderwares = append(midderwares, midderware.LogRequest())
-	midderwares = append(midderwares, midderware.Cors())
 	server.Use(midderwares...)
 	apimodel.RegisterRoutes(server)
 
