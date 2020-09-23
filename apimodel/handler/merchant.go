@@ -4,26 +4,26 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	request2 "tickethub_service/apimodel/request"
-	validate2 "tickethub_service/apimodel/validate"
-	service2 "tickethub_service/service"
+	"tickethub_service/apimodel/request"
+	"tickethub_service/apimodel/validate"
+	"tickethub_service/service"
 	"tickethub_service/util/errors"
 	"tickethub_service/util/log"
 )
 
 func GetMerchant(ctx *gin.Context) {
-	var request request2.GetMerchantRequest
+	var req request.GetMerchantRequest
 
-	if request.ID = ctx.Param("ID"); request.ID == "" {
-		msg := fmt.Sprintf("Failed to parse merchant ID in GetMerchant:[%v]", ctx.Request)
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		msg := fmt.Sprintf("Failed to parse merchant ID in GetMerchant[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
 	}
 
-	resp, err := service2.GetMerchant(request)
+	resp, err := service.GetMerchant(req)
 	if err != nil {
-		msg := fmt.Sprintf("Failed to handle GetMerchant req[%v]: %v", request, err)
+		msg := fmt.Sprintf("Failed to handle GetMerchant req[%v]: %v", req, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
@@ -33,7 +33,7 @@ func GetMerchant(ctx *gin.Context) {
 }
 
 func CreateMerchant(ctx *gin.Context) {
-	var request request2.CreateMerchantRequest
+	var request request.CreateMerchantRequest
 	if err := ctx.ShouldBindJSON(&request); err != nil {
 		msg := fmt.Sprintf("Failed to parse CreateMerchant req[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
@@ -41,13 +41,13 @@ func CreateMerchant(ctx *gin.Context) {
 		return
 	}
 
-	if err := validate2.CheckCreateMerchant(request); err != nil {
+	if err := validate.CheckCreateMerchant(request); err != nil {
 		log.Errorf("Failed to validate CreateMerchant req[%v]: %v", request, err)
 		errors.AbortWithWriteErrorResponse(ctx, err)
 		return
 	}
 
-	resp, err := service2.CreateMerchant(request)
+	resp, err := service.CreateMerchant(request)
 	if err != nil {
 		msg := fmt.Sprintf("Failed to handle CreateMerchant req[%v]: %v", request, err)
 		log.Errorf(msg)
@@ -59,7 +59,7 @@ func CreateMerchant(ctx *gin.Context) {
 }
 
 func UpdateMerchant(ctx *gin.Context) {
-	var request request2.UpdateMerchantRequest
+	var request request.UpdateMerchantRequest
 	if err := ctx.ShouldBindJSON(&request); err != nil {
 		msg := fmt.Sprintf("Failed to parse UpdateMerchant req[%v]: %v", &ctx, err)
 		log.Errorf(msg)
@@ -67,13 +67,13 @@ func UpdateMerchant(ctx *gin.Context) {
 		return
 	}
 
-	if err := validate2.CheckUpdateMerchant(request); err != nil {
+	if err := validate.CheckUpdateMerchant(request); err != nil {
 		log.Errorf("Failed to validate UpdateMerchant req[%v]: %v", request, err)
 		errors.AbortWithWriteErrorResponse(ctx, err)
 		return
 	}
 
-	if err := service2.UpdateMerchant(request); err != nil {
+	if err := service.UpdateMerchant(request); err != nil {
 		msg := fmt.Sprintf("Failed to handle UpdateMerchant req[%v]: %v", request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
@@ -84,16 +84,16 @@ func UpdateMerchant(ctx *gin.Context) {
 }
 
 func DeleteMerchant(ctx *gin.Context) {
-	var request request2.DeleteMerchantRequest
-	if request.ID = ctx.Param("ID"); request.ID == "" {
-		msg := fmt.Sprintf("Failed to parse DeleteMerchant req[%v]", ctx.Request)
+	var req request.DeleteMerchantRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		msg := fmt.Sprintf("Failed to parse DeleteMerchant req[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
 	}
 
-	if err := service2.DeleteMerchant(request); err != nil {
-		msg := fmt.Sprintf("Failed to handle DeleteMerchant req[%v]: %v", request, err)
+	if err := service.DeleteMerchant(req); err != nil {
+		msg := fmt.Sprintf("Failed to handle DeleteMerchant req[%v]: %v", req, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return

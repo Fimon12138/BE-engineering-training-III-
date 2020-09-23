@@ -12,18 +12,18 @@ import (
 )
 
 func GetUser(ctx *gin.Context) {
-	var request request.GetUserRequest
+	var req request.GetUserRequest
 
-	if request.ID = ctx.Param("ID"); request.ID == "" {
-		msg := fmt.Sprintf("Failed to parse user ID in GetUser:[%v]", ctx.Request)
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		msg := fmt.Sprintf("Failed to parse user ID in GetUser[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
 	}
 
-	resp, err := service.GetUser(request)
+	resp, err := service.GetUser(req)
 	if err != nil {
-		msg := fmt.Sprintf("Failed to handle GetUser req[%v]: %v", request, err)
+		msg := fmt.Sprintf("Failed to handle GetUser req[%v]: %v", req, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
@@ -33,24 +33,24 @@ func GetUser(ctx *gin.Context) {
 }
 
 func CreateUser(ctx *gin.Context) {
-	var request request.CreateUserRequest
+	var req request.CreateUserRequest
 
-	if err := ctx.ShouldBindJSON(&request); err != nil {
+	if err := ctx.ShouldBindJSON(&req); err != nil {
 		msg := fmt.Sprintf("Failed to parse CreateUser req[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
 	}
 
-	if err := validate.CheckCreateUser(request); err != nil {
-		log.Errorf("Failed to validate CreateUser req[%v]: %v", request, err)
+	if err := validate.CheckCreateUser(req); err != nil {
+		log.Errorf("Failed to validate CreateUser req[%v]: %v", req, err)
 		errors.AbortWithWriteErrorResponse(ctx, err)
 		return
 	}
 
-	resp, err := service.CreateUser(request)
+	resp, err := service.CreateUser(req)
 	if err != nil {
-		msg := fmt.Sprintf("Failed to handle CreateUser req[%v]: %v", request, err)
+		msg := fmt.Sprintf("Failed to handle CreateUser req[%v]: %v", req, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
@@ -61,22 +61,22 @@ func CreateUser(ctx *gin.Context) {
 }
 
 func UpdateUser(ctx *gin.Context) {
-	var request request.UpdateUserRequest
-	if err := ctx.ShouldBindJSON(&request); err != nil {
+	var req request.UpdateUserRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
 		msg := fmt.Sprintf("Failed to parse UpdateUser req[%v]: %v",ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
 	}
 
-	if err := validate.CheckUpdateUser(request); err != nil {
-		log.Errorf("Failed to validate UpdateUser req[%v]: %v", request, err)
+	if err := validate.CheckUpdateUser(req); err != nil {
+		log.Errorf("Failed to validate UpdateUser req[%v]: %v", req, err)
 		errors.AbortWithWriteErrorResponse(ctx, err)
 		return
 	}
 
-	if err := service.UpdateUser(request); err != nil {
-		msg := fmt.Sprintf("Failed to handle UpdateUser req[%v]: %v", request, err)
+	if err := service.UpdateUser(req); err != nil {
+		msg := fmt.Sprintf("Failed to handle UpdateUser req[%v]: %v", req, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
@@ -86,16 +86,16 @@ func UpdateUser(ctx *gin.Context) {
 }
 
 func DeleteUser(ctx *gin.Context) {
-	var request request.DeleteUserRequest
-	if request.ID = ctx.Param("ID"); request.ID == "" {
-		msg := fmt.Sprintf("Failed to parse user ID in DeleteUser:[%v]", ctx.Request)
+	var req request.DeleteUserRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		msg := fmt.Sprintf("Failed to parse user ID in DeleteUser[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
 	}
 
-	if err := service.DeleteUser(request); err != nil {
-		msg := fmt.Sprintf("Failed to handle DeleteUser req[%v]: %v", request, err)
+	if err := service.DeleteUser(req); err != nil {
+		msg := fmt.Sprintf("Failed to handle DeleteUser req[%v]: %v", req, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return

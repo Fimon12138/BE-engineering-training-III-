@@ -9,10 +9,10 @@ import (
 func RegisterRoutes(router *gin.Engine) {
 	v2 := router.Group(enum.V1)
 	{
-		v2.GET("/account/:id", handler.GetAccount)
+		v2.POST("/account/info", handler.GetAccount)
 		v2.POST("/account", handler.CreateAccount)
 		v2.PUT("/account", handler.UpdateAccount)
-		v2.DELETE("/account/:id", handler.DeleteAccount)
+		v2.POST("/account/delete", handler.DeleteAccount)
 		v2.POST("/account/login", handler.LogIn)
 		v2.POST("/account/signup", handler.SignUp)
 
@@ -22,27 +22,27 @@ func RegisterRoutes(router *gin.Engine) {
 
 		v2.POST("/favorite/list", handler.ListFavorite)
 		v2.POST("/favorite", handler.CreateFavorite)
-		v2.DELETE("/favorite/:id", handler.DeleteFavorite)
+		v2.POST("/favorite/delete", handler.DeleteFavorite)
 
-		v2.GET("/merchant/:id", handler.GetMerchant)
+		v2.POST("/merchant/info", handler.GetMerchant)
 		v2.POST("/merchant", handler.CreateMerchant)
 		v2.PUT("/merchant", handler.UpdateMerchant)
-		v2.DELETE("/merchant/:id", handler.DeleteMerchant)
+		v2.POST("/merchant/delete", handler.DeleteMerchant)
 
 		v2.POST("/order/list", handler.ListOrder)
 		v2.POST("/order", handler.CreateOrder)
 		v2.POST("/order/pay", handler.PayForOrder)
 		v2.POST("/order/finished", handler.ListFinishedTicket)
 
-		v2.GET("/ticket:id", handler.GetTicket)
+		v2.POST("/ticket/info", handler.GetTicket)
 		v2.POST("/ticket/list", handler.ListTicket)
 
-		v2.GET("/user/:id", handler.GetUser)
+		v2.POST("/user/info", handler.GetUser)
 		v2.POST("/user", handler.CreateUser)
 		v2.PUT("/user", handler.UpdateUser)
-		v2.DELETE("/user/:id", handler.DeleteUser)
+		v2.POST("/user/delete", handler.DeleteUser)
 
-		v2.GET("/zjpay/:id", handler.GetZjPay)
+		v2.POST("/zjpay/info", handler.GetZjPay)
 		v2.POST("/zjpay/charge", handler.ChargeMoneyRequest)
 
 		v2.GET("/recommendation", handler.ListRecommendations)
