@@ -63,7 +63,17 @@ func UpdateUser(req request.UpdateUserRequest) error {
 		return err
 	}
 	if req.Nickname != "" {
-		model.UpdateOrder(model.Order{UserID: user.ID}, model.Order{UserName: user.Nickname})
+		err := model.UpdateOrder(model.Order{UserID: user.ID}, model.Order{UserName: user.Nickname})
+		if err != nil {
+			log.Errorf("Failed to update order:%v", err)
+			return err
+		}
+
+		err = model.UpdateComment(model.Comment{UserID: user.ID}, model.Comment{UserName: user.Nickname})
+		if err != nil {
+			log.Errorf("Failed to update comment: %v", err)
+			return err
+		}
 	}
 	return nil
 }

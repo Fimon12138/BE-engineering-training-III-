@@ -12,7 +12,7 @@ type CreateUserRequest struct {
 }
 
 type UpdateUserRequest struct {
-	ID          string `json:"id"`
+	ID          string `json:"id" binding:"required"`
 	PayID       string `json:"payId"`
 	Nickname    string `json:"nickname"`
 	Avatar      string `json:"avatar"`
@@ -21,5 +21,5 @@ type UpdateUserRequest struct {
 }
 
 type DeleteUserRequest struct {
-	ID string `json:"id"`
+	ID string `json:"id" binding:"required"`
 }
