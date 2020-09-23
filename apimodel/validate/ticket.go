@@ -23,7 +23,7 @@ func CheckListTicket(req *request.ListTicketRequest) error {
 		return errors.InvalidRequestError(msg)
 	}
 	if req.Order == "" {
-		req.Order = enum.ORDERBY_COMMON_UPDATETIME
+		req.Order = enum.ORDER_DESC
 	}
 
 	if req.OrderBy == "" {
