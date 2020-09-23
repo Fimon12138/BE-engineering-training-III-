@@ -14,7 +14,7 @@ import (
 func GetTicket(ctx *gin.Context) {
 	var req request.GetTicketRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		msg := fmt.Sprintf("Failed to parse GetTicket req:[%v]", ctx.Request)
+		msg := fmt.Sprintf("Failed to parse GetTicket req[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
@@ -34,7 +34,7 @@ func GetTicket(ctx *gin.Context) {
 func ListTicket(ctx *gin.Context) {
 	var req request.ListTicketRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		msg := fmt.Sprintf("Failed to parse ListTicket req:[%v]", ctx.Request)
+		msg := fmt.Sprintf("Failed to parse ListTicket req[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return

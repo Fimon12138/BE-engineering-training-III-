@@ -5,14 +5,14 @@ type GetOrderRequest struct {
 }
 
 type CreateOrderRequest struct {
-	TicketID string  `json:"ticketId"`
-	UserID   string  `json:"userId"`
-	Price    float32 `json:"price"`
+	TicketID string  `json:"ticketId" binding:"required"`
+	UserID   string  `json:"userId" binding:"required"`
+	Price    float32 `json:"price" binding:"required"`
 }
 
 type ListOrderRequest struct {
-	PageNo   int    `json:"pageNo"`
-	PageSize int    `json:"pageSize"`
+	PageNo   int    `json:"pageNo" binding:"required"`
+	PageSize int    `json:"pageSize" binding:"required"`
 	OrderBy  string `json:"orderBy"`
 	Order    string `json:"order"`
 	Status   string `json:"status"`
@@ -20,20 +20,20 @@ type ListOrderRequest struct {
 }
 
 type UpdateOrderRequest struct {
-	ID     string `json:"id"`
+	ID     string `json:"id" binding:"required"`
 	Status string `json:"status"`
 }
 
 type PayForOrderRequest struct {
-	ZjpayID string `json:"zjpayId"`
-	OrderID string `json:"orderId"`
+	ZjpayID string `json:"zjpayId" binding:"required"`
+	OrderID string `json:"orderId" binding:"required"`
 }
 
 type ListFinishedTicketRequest struct {
-	PageNo    int    `json:"pageNo"`
-	PageSize  int    `json:"pageSize"`
+	PageNo    int    `json:"pageNo" binding:"required"`
+	PageSize  int    `json:"pageSize" binding:"required"`
 	OrderBy   string `json:"orderBy"`
 	Order     string `json:"order"`
 	UserID    string `json:"userId"`
-	OutOfDate string `json:"outOfDate"`
+	OutOfDate string `json:"outOfDate" binding:"required"`
 }

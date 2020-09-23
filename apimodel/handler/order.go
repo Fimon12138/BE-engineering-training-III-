@@ -77,7 +77,7 @@ func PayForOrder(ctx *gin.Context) {
 func ListFinishedTicket(ctx *gin.Context) {
 	var req request.ListFinishedTicketRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		msg := fmt.Sprintf("Failed to parse ListFinishedTicket req:[%v]", ctx.Request)
+		msg := fmt.Sprintf("Failed to parse ListFinishedTicket req:[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return

@@ -1,14 +1,14 @@
 package request
 
 type CreateCommentRequest struct {
-	UserID   string `json:"userId"`
-	TicketID string `json:"ticketId"`
+	UserID   string `json:"userId" binding:"required"`
+	TicketID string `json:"ticketId" binding:"required"`
 	Content  string `json:"content"`
 }
 
 type ListCommentRequest struct {
-	PageNo   int    `json:"pageNo"`
-	PageSize int    `json:"pageSize"`
+	PageNo   int    `json:"pageNo" binding:"required"`
+	PageSize int    `json:"pageSize" binding:"required"`
 	OrderBy  string `json:"orderBy"`
 	Order    string `json:"order"`
 	UserID   string `json:"userId"`
@@ -16,8 +16,8 @@ type ListCommentRequest struct {
 }
 
 type UpdateCommentRequest struct {
-	ID      string `json:"id"`
-	Content string `json:"content"`
+	ID      string `json:"id" binding:"required"`
+	Content string `json:"content" binding:"required"`
 }
 
 type DeleteCommentRequest struct {

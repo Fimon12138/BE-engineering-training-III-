@@ -27,12 +27,11 @@ type UpdateTicketRequest struct {
 }
 
 type ListTicketRequest struct {
-	PageNo     int    `json:"pageNo"`
-	PageSize   int    `json:"pageSize"`
+	PageNo     int    `json:"pageNo" binding:"required"`
+	PageSize   int    `json:"pageSize" binding:"required"`
 	OrderBy    string `json:"orderBy"`
 	Order      string `json:"order"`
 	NameFilter string `json:"nameFilter"`
-	Finished   string `json:"finished"`
 	OutOfDate  string `json:"outOfDate"`
 	Type       string `json:"type"`
 }

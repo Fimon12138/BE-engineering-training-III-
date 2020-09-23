@@ -36,7 +36,7 @@ func CreateUser(ctx *gin.Context) {
 	var request request.CreateUserRequest
 
 	if err := ctx.ShouldBindJSON(&request); err != nil {
-		msg := fmt.Sprintf("Failed to parse CreateUser req[%v]: %v", &ctx, err)
+		msg := fmt.Sprintf("Failed to parse CreateUser req[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return

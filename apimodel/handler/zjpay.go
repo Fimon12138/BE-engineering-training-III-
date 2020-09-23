@@ -34,7 +34,7 @@ func GetZjPay(ctx *gin.Context) {
 func ChargeMoneyRequest(ctx *gin.Context) {
 	var req request.ChargeMoneyRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		msg := fmt.Sprintf("Failed to parse ChargeMoneyRequest ctx[%v]", ctx.Request)
+		msg := fmt.Sprintf("Failed to parse ChargeMoneyRequest ctx[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return

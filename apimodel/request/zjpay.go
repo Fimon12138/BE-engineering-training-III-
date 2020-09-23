@@ -14,6 +14,6 @@ type DeleteZjpayRequest struct {
 }
 
 type ChargeMoneyRequest struct {
-	ID          string  `json:"id"`
+	ID          string  `json:"id" binding:"required"`
 	ChargeMoney float32 `json:"chargeMoney"`
 }
