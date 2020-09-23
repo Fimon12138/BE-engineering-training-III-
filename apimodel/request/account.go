@@ -26,7 +26,8 @@ type LogIn struct {
 }
 
 type SignUp struct {
-	Name string `json:"name"`
-	Password string `json:"password"`
-	Type string `json:"type"`
+	Name      string `json:"name"`
+	Password  string `json:"password"`
+	Telephone string `json:"telepohne"`
+	Type      string `json:"type"`
 }

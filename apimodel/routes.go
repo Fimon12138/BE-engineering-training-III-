@@ -14,6 +14,7 @@ func RegisterRoutes(router *gin.Engine) {
 		v2.PUT("/account", handler.UpdateAccount)
 		v2.DELETE("/account/:id", handler.DeleteAccount)
 		v2.POST("/account/login", handler.LogIn)
+		v2.POST("/account/signup", handler.SignUp)
 
 		v2.POST("/comment/list", handler.ListComment)
 		v2.POST("/comment", handler.CreateComment)

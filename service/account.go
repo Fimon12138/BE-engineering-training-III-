@@ -6,6 +6,7 @@ import (
 	"tickethub_service/model"
 	"tickethub_service/util/log"
 	"time"
+	"tickethub_service/util"
 )
 
 func GetAccount(req request.GetAccountRequest) (response.GetAccountResponse, error) {
@@ -67,16 +68,80 @@ func DeleteAccount(req request.DeleteAccountRequest) error {
 	return nil
 }
 
-func LogIn(req request.LogIn) response.LogIn {
+func LogIn(req request.LogIn) (response.LogIn, error) {
 	var resp response.LogIn
 	account, err := model.GetAccount(req.Name)
 	if err != nil || account.Password != req.Password {
-		return resp
+		log.Errorf("Failed to login: %v", req.Name, err)
+		return resp, err
 	}
 	//TODO add token
-	resp = response.LogIn{}
+	resp.Token = ""
 	resp.ID = account.RelatedID
-	return resp
+	return resp, nil
+}
+
+func SignUp(req request.SignUp) error {
+	if req.Type == "user" {
+		user := model.User{
+			ID: util.NewUUIDString("user"),
+			Nickname: util.NewUUIDString("")[0: 36],
+			Telephone: req.Telephone,
+			CreateTime: time.Now(),
+			UpdateTime: time.Now(),
+		}
+
+		newUser, err := model.CreateUser(user)
+		if err != nil {
+			log.Errorf("Failed to create user[%v] in DB: %v", user, err)
+			return err
+		}
+
+		account := model.Account{
+			Name:       req.Name,
+			Password:   req.Password,
+			Type:       "user",
+			RelatedID:  newUser.ID,
+			CreateTime: time.Now(),
+			UpdateTime: time.Now(),
+		}
+		_, err = model.CreateAccount(account)
+		if err != nil {
+			log.Errorf("Failed to create account[%v]: %v", account, err)
+			return err
+		}
+		return nil
+
+		} else {
+		merchant := model.Merchant{
+			ID: util.NewUUIDString("user"),
+			Nickname: util.NewUUIDString("")[0: 36],
+			Telephone: req.Telephone,
+			CreateTime: time.Now(),
+			UpdateTime: time.Now(),
+		}
+
+		newMerchant, err := model.CreateMerchant(merchant)
+		if err != nil {
+			log.Errorf("Failed to create merchant[%v] in DB: %v", merchant, err)
+			return err
+		}
+
+		account := model.Account{
+			Name:       req.Name,
+			Password:   req.Password,
+			Type:       "user",
+			RelatedID:  newMerchant.ID,
+			CreateTime: time.Now(),
+			UpdateTime: time.Now(),
+		}
+		_, err = model.CreateAccount(account)
+		if err != nil {
+			log.Errorf("Failed to create account[%v]: %v", account, err)
+			return err
+		}
+		return nil
+	}
 }
 
 func GetAccountByName(name string) (model.Account, error) {

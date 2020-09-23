@@ -27,7 +27,7 @@ type Ticket struct {
 func GetTicket(ID string) (Ticket, error) {
 	var ticket Ticket
 
-	err := config.DB.Where(&Ticket{ID: ID}).Find(&ticket).Error
+	err := config.DB.Table(enum.TABLENAME_TICKET).Where(&Ticket{ID: ID}).Find(&ticket).Error
 
 	return ticket, err
 }
