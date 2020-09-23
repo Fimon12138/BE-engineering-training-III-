@@ -1,7 +1,7 @@
 package response
 
 import (
-	model2 "tickethub_service/model"
+	"tickethub_service/model"
 	"tickethub_service/util"
 )
 
@@ -31,7 +31,7 @@ type ListCommentResponse struct {
 	TotalCount int       `json:"totalCount"`
 }
 
-func (c *Comment) Load(comment model2.Comment) {
+func (c *Comment) Load(comment model.Comment) {
 	c.ID = comment.ID
 	c.TicketID = comment.TicketID
 	c.TicketName = comment.TicketName

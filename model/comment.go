@@ -41,7 +41,7 @@ func ListComment(filter Comment, p Pagination, orderf OrderFilter) ([]Comment, i
 	var comments []Comment
 	var totalCount int
 
-	database := config.DB.Table(enum.TABLENAME_TICKET).Where(&filter)
+	database := config.DB.Table(enum.TABLENAME_COMMENT).Where(&filter)
 	database.Count(&totalCount)
 
 	database = database.Order(orderf.Field + " " + orderf.Direction)
