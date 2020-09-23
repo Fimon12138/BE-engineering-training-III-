@@ -14,7 +14,7 @@ func CheckTelephone(telephone string) bool {
 	}
 
 	for _, char := range telephone {
-		if char <= '0' || char >= '9' {
+		if char < '0' || char > '9' {
 			return false
 		}
 	}

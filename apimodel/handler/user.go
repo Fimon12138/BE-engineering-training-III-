@@ -15,7 +15,7 @@ func GetUser(ctx *gin.Context) {
 	var request request.GetUserRequest
 
 	if request.ID = ctx.Param("ID"); request.ID == "" {
-		msg := fmt.Sprintf("Failed to parse user ID in GetUser:[%v]", ctx)
+		msg := fmt.Sprintf("Failed to parse user ID in GetUser:[%v]", &ctx)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
@@ -36,7 +36,7 @@ func CreateUser(ctx *gin.Context) {
 	var request request.CreateUserRequest
 
 	if err := ctx.ShouldBindJSON(&request); err != nil {
-		msg := fmt.Sprintf("Failed to parse CreateUser req[%v]: %v", request, err)
+		msg := fmt.Sprintf("Failed to parse CreateUser req[%v]: %v", &ctx, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
@@ -63,7 +63,7 @@ func CreateUser(ctx *gin.Context) {
 func UpdateUser(ctx *gin.Context) {
 	var request request.UpdateUserRequest
 	if err := ctx.ShouldBindJSON(&request); err != nil {
-		msg := fmt.Sprintf("Failed to parse UpdateUser req[%v]: %v", request, err)
+		msg := fmt.Sprintf("Failed to parse UpdateUser req[%v]: %v",&ctx, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
@@ -88,7 +88,7 @@ func UpdateUser(ctx *gin.Context) {
 func DeleteUser(ctx *gin.Context) {
 	var request request.DeleteUserRequest
 	if request.ID = ctx.Param("ID"); request.ID == "" {
-		msg := fmt.Sprintf("Failed to parse user ID in DeleteUser:[%v]", ctx)
+		msg := fmt.Sprintf("Failed to parse user ID in DeleteUser:[%v]", &ctx)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return

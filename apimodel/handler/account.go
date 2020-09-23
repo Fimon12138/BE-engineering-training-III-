@@ -15,7 +15,7 @@ func GetAccount(ctx *gin.Context) {
 	var req request.GetAccountRequest
 
 	if req.AccountName = ctx.Param("AccountName"); req.AccountName == "" {
-		msg := fmt.Sprintf("Failed to parse account name in GetAccount:[%v]", ctx)
+		msg := fmt.Sprintf("Failed to parse account name in GetAccount:[%v]", &ctx)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
@@ -36,7 +36,7 @@ func CreateAccount(ctx *gin.Context) {
 	var req request.CreateAccountRequest
 
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		msg := fmt.Sprintf("Failed to parse Createaccount req[%v]", ctx)
+		msg := fmt.Sprintf("Failed to parse Createaccount req[%v]", &ctx)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
@@ -60,14 +60,14 @@ func CreateAccount(ctx *gin.Context) {
 func UpdateAccount(ctx *gin.Context) {
 	var req request.UpdateAccountRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		msg := fmt.Sprintf("Failed to parse UpdateAccount req:[%v]", ctx)
+		msg := fmt.Sprintf("Failed to parse UpdateAccount req:[%v]", &ctx)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
 	}
 
 	if err := service.UpdateAccount(req); err != nil {
-		msg := fmt.Sprintf("Failed to handle UpdateAccount req[%v]: %v", req, err)
+		msg := fmt.Sprintf("Failed to handle UpdateAccount req[%v]: %v", req, &err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
@@ -79,7 +79,7 @@ func UpdateAccount(ctx *gin.Context) {
 func DeleteAccount(ctx *gin.Context) {
 	var req request.DeleteAccountRequest
 	if req.Name = ctx.Param("AccountName"); req.Name == "" {
-		msg := fmt.Sprintf("Failed to parse account name in DeleteAccount:[%v]", ctx)
+		msg := fmt.Sprintf("Failed to parse account name in DeleteAccount:[%v]", &ctx)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
@@ -97,7 +97,7 @@ func DeleteAccount(ctx *gin.Context) {
 func LogIn(ctx *gin.Context) {
 	var req request.LogIn
 	if err := ctx.ShouldBindJSON(req); err != nil {
-		msg := fmt.Sprintf("Failed to parse login req:[%v]", ctx)
+		msg := fmt.Sprintf("Failed to parse login req:[%v]", &ctx)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return

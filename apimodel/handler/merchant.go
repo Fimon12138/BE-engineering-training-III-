@@ -61,7 +61,7 @@ func CreateMerchant(ctx *gin.Context) {
 func UpdateMerchant(ctx *gin.Context) {
 	var request request2.UpdateMerchantRequest
 	if err := ctx.ShouldBindJSON(&request); err != nil {
-		msg := fmt.Sprintf("Failed to parse UpdateMerchant req[%v]: %v", ctx, err)
+		msg := fmt.Sprintf("Failed to parse UpdateMerchant req[%v]: %v", &ctx, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
@@ -86,7 +86,7 @@ func UpdateMerchant(ctx *gin.Context) {
 func DeleteMerchant(ctx *gin.Context) {
 	var request request2.DeleteMerchantRequest
 	if request.ID = ctx.Param("ID"); request.ID == "" {
-		msg := fmt.Sprintf("Failed to parse DeleteMerchant req[%v]", ctx)
+		msg := fmt.Sprintf("Failed to parse DeleteMerchant req[%v]", &ctx)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
