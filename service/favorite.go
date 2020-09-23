@@ -8,6 +8,7 @@ import (
 	"tickethub_service/util/enum"
 	"tickethub_service/util/log"
 	"time"
+	"fmt"
 )
 
 func CreateFavorite(req request.CreateFavoriteRequest) (response.CreateFavoriteResponse, error) {
@@ -96,6 +97,7 @@ func DeleteFavorite(req request.DeleteFavoriteRequest) error {
 		log.Errorf("Failed to get ticket by ID[%v]: %v", req.TicketID, err)
 		return err
 	}
+	fmt.Println(req)
 	err = model.DeleteFavorite(model.Favorite{UserID: req.UserID,
 												TicketID: req.TicketID})
 	if err != nil {

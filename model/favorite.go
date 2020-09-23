@@ -49,7 +49,7 @@ func ListFavorite(filter Favorite, page Pagination, orderf OrderFilter) ([]Favor
 }
 
 func DeleteFavorite(filter Favorite) error {
-	return config.DB.Table(enum.TABLENAME_FAVORITE).Delete(&filter).Error
+	return config.DB.Table(enum.TABLENAME_FAVORITE).Delete(Favorite{}, filter).Error
 }
 
 func MatchFavorite(filter Favorite) (bool, error) {
