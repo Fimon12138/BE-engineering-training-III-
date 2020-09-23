@@ -52,7 +52,7 @@ func UpdateUser(req request.UpdateUserRequest) error {
 
 	//TODO check payID
 	user.PayID = req.PayID
-	user.Nickname = req.NickName
+	user.Nickname = req.Nickname
 	user.Avatar = req.Avatar
 	user.Telephone = req.Telephone
 	user.Description = req.Description
@@ -62,7 +62,7 @@ func UpdateUser(req request.UpdateUserRequest) error {
 		log.Errorf("Failed to UpdateUser in database req[%v]:%v", req, err)
 		return err
 	}
-	if req.NickName != "" {
+	if req.Nickname != "" {
 		model.UpdateOrder(model.Order{UserID: user.ID}, model.Order{UserName: user.Nickname})
 	}
 	return nil

@@ -36,6 +36,7 @@ const (
 	TICKET_TYPE_SPORT       = "sport"
 	TICKET_TYPE_EXHIBITION_ = "exhibition"
 	TICKET_TYPE_OPERA       = "opera"
+
 )
 
 func GetAccountType() []string {

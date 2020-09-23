@@ -32,7 +32,6 @@ type ListTicketRequest struct {
 	OrderBy    string `json:"orderBy"`
 	Order      string `json:"order"`
 	NameFilter string `json:"nameFilter"`
-	OutOfDate  string `json:"outOfDate"`
 	Type       string `json:"type"`
 }
 

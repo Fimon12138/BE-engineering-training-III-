@@ -14,7 +14,7 @@ import (
 func CreateOrder(ctx *gin.Context) {
 	var req request.CreateOrderRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		msg := fmt.Sprintf("Failed to parse CreateOrder req:[%v]", ctx.Request)
+		msg := fmt.Sprintf("Failed to parse CreateOrder req[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
@@ -34,7 +34,7 @@ func CreateOrder(ctx *gin.Context) {
 func ListOrder(ctx *gin.Context) {
 	var req request.ListOrderRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		msg := fmt.Sprintf("Failed to parse ListOrder req:[%v]", ctx.Request)
+		msg := fmt.Sprintf("Failed to parse ListOrder req[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
@@ -57,10 +57,28 @@ func ListOrder(ctx *gin.Context) {
 	ctx.AbortWithStatusJSON(http.StatusOK, resp)
 }
 
+func DeleteOrder(ctx *gin.Context) {
+	var req request.DeleteOrderRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		msg := fmt.Sprintf("Failed to parse DeleteOrder req[%v]: %v", ctx.Request, err)
+		log.Errorf(msg)
+		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
+		return
+	}
+
+	if err := service.DeleteOrder(req); err != nil {
+		msg := fmt.Sprintf("Failed to handle DeleteOrder req[%v]: %v", req, err)
+		log.Errorf(msg)
+		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
+		return
+	}
+	ctx.AbortWithStatus(http.StatusOK)
+}
+
 func PayForOrder(ctx *gin.Context) {
 	var req request.PayForOrderRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		msg := fmt.Sprintf("Failed to parse PayForOrder req:[%v]", ctx.Request)
+		msg := fmt.Sprintf("Failed to parse PayForOrder req[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return

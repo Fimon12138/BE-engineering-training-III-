@@ -47,7 +47,6 @@ func ListTicket(filter Ticket, p Pagination, orderf OrderFilter, nameFilter stri
 	database = database.Where(TICKET_FIELD_NAME+MYSQL_CONTANINS_STRING, "%"+nameFilter+"%")
 	database.Count(&totalCount)
 
-
 	database = database.Order(orderf.Field + " " + orderf.Direction)
 	database = database.Offset(p.Offset).Limit(p.Size)
 	database.Find(&tickets)

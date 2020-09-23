@@ -16,10 +16,9 @@ func CheckListTicket(req *request.ListTicketRequest) error {
 
 	if !util.ContainsStringAllowZero(enum.GetTicketTypeValues(), req.Type) ||
 		!util.ContainsStringAllowZero(enum.GetTicketOrderByValues(), req.OrderBy) ||
-		!util.ContainsStringAllowZero(enum.GetOrderValues(), req.Order) ||
-		!util.ContainsStringAllowZero(enum.GetBoolType(), req.OutOfDate) {
+		!util.ContainsStringAllowZero(enum.GetOrderValues(), req.Order) {
 		msg := fmt.Sprintf("The content of Type[%v] or "+
-			"orderby[%v] or order[%v] or outOfDate[%v] wrong", req.Type, req.OrderBy, req.Order, req.OutOfDate)
+			"orderby[%v] or order[%v]  wrong", req.Type, req.OrderBy, req.Order)
 		return errors.InvalidRequestError(msg)
 	}
 	if req.Order == "" {

@@ -7,7 +7,7 @@ type GetOrderRequest struct {
 type CreateOrderRequest struct {
 	TicketID string  `json:"ticketId" binding:"required"`
 	UserID   string  `json:"userId" binding:"required"`
-	Price    float32 `json:"price" binding:"required"`
+	Price    float32 `json:"price"`
 	Count int `json:"count" binding:"required"`
 }
 
@@ -23,6 +23,10 @@ type ListOrderRequest struct {
 type UpdateOrderRequest struct {
 	ID     string `json:"id" binding:"required"`
 	Status string `json:"status"`
+}
+
+type DeleteOrderRequest struct {
+	ID string `json:"id" binding:"required"`
 }
 
 type PayForOrderRequest struct {

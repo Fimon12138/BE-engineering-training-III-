@@ -52,12 +52,7 @@ func ListTicket(req request.ListTicketRequest) (response.ListTicketResponse, err
 	for _, ticket := range tickets {
 		newTicket := response.Ticket{}
 		newTicket.Load(ticket)
-		if req.OutOfDate == "" ||
-			(req.OutOfDate == enum.YES && ticket.StartTime.Before(time.Now())) ||
-			(req.OutOfDate == enum.NO && ticket.StartTime.After(time.Now())) {
-			resp.Result = append(resp.Result, newTicket)
-		}
-
+		resp.Result = append(resp.Result, newTicket)
 	}
 	resp.TotalCount = totalCount
 

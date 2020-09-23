@@ -81,6 +81,16 @@ func UpdateOrder(req request.UpdateOrderRequest) error {
 	return nil
 }
 
+func DeleteOrder(req request.DeleteOrderRequest) error{
+	err := model.DeleteOrder(req.ID)
+	if err != nil {
+		log.Errorf("Failed to delete order:[%v]", err)
+		return err
+	}
+
+	return nil
+}
+
 func ListOrder(req request.ListOrderRequest) (response.ListOrderResponse, error) {
 	var resp response.ListOrderResponse
 
@@ -183,6 +193,7 @@ func PayForOrder(req request.PayForOrderRequest) error {
 
 func ListFinishedTicket(req request.ListFinishedTicketRequest) (response.ListFinishedTicketResponse, error) {
 	var resp response.ListFinishedTicketResponse
+	var totalCount int
 
 	filter := model.Order{
 		UserID: req.UserID,
@@ -195,25 +206,38 @@ func ListFinishedTicket(req request.ListFinishedTicketRequest) (response.ListFin
 	}
 
 	page := model.Pagination{
-		Offset: (req.PageNo - 1) * req.PageSize,
+		Offset: 0,
+		Size: 11111111,
 	}
 
-	orders, totalCount, err := model.ListOrders(filter, page, orderf)
+	orders, _, err := model.ListOrders(filter, page, orderf)
 	if err != nil {
 		log.Errorf("Failed to get orders by req[%v]: %v", req, err)
 		return resp, err
 	}
 
-	resp.Result = make([]response.Ticket, 0)
+	tmp := make([]response.Ticket, 0)
 	for _, order := range orders {
 		ticket, err := GetTicketByID(order.TicketID)
 		if err != nil {
 			log.Errorf("Failed to get ticket by ID[%v]: %v", order.TicketID, err)
 			return resp, err
 		}
-		respTicket := response.Ticket{}
-		respTicket.Load(ticket)
-		resp.Result = append(resp.Result, respTicket)
+		if (ticket.StartTime.After(time.Now()) && req.OutOfDate == enum.YES) ||
+			(ticket.StartTime.Before(time.Now()) && req.OutOfDate == enum.NO) {
+			respTicket := response.Ticket{}
+			respTicket.Load(ticket)
+			tmp = append(tmp, respTicket)
+			totalCount++
+		}
+	}
+
+	if totalCount <= req.PageNo * req.PageSize && totalCount != 0{
+		resp.Result = tmp[(req.PageNo - 1) * req.PageSize: ]
+	}
+
+	if totalCount > req.PageNo * req.PageSize {
+		resp.Result = tmp[(req.PageNo - 1) * req.PageSize: req.PageNo * req.PageSize]
 	}
 
 	resp.PageNo = req.PageNo

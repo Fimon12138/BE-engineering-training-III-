@@ -14,10 +14,10 @@ type CreateUserRequest struct {
 type UpdateUserRequest struct {
 	ID          string `json:"id"`
 	PayID       string `json:"payId"`
-	NickName    string `json:"nickName"`
+	Nickname    string `json:"nickname"`
 	Avatar      string `json:"avatar"`
 	Telephone   string `json:"telephone"`
-	Description string `json:"Description"`
+	Description string `json:"description"`
 }
 
 type DeleteUserRequest struct {
