@@ -2,7 +2,7 @@ package model
 
 const (
 	TICKET_FIELD_NAME      = "name"
-	MYSQL_CONTANINS_STRING = "LIKE ?"
+	MYSQL_CONTANINS_STRING = " LIKE ?"
 )
 
 type Pagination struct {
