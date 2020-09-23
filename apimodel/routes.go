@@ -31,7 +31,7 @@ func RegisterRoutes(router *gin.Engine) {
 
 		v2.POST("/order/list", handler.ListOrder)
 		v2.POST("/order", handler.CreateOrder)
-		v2.POST("/order/uodate", handler.UpdateOrder)
+		v2.POST("/order/update", handler.UpdateOrder)
 		v2.POST("/order/delete", handler.DeleteOrder)
 		v2.POST("/order/pay", handler.PayForOrder)
 		v2.POST("/order/finished", handler.ListFinishedTicket)
