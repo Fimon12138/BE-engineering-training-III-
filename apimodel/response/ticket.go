@@ -19,6 +19,7 @@ type Ticket struct {
 	Count          int     `json:"count"`
 	SubscribeCount int     `json:"subscribeCount"`
 	Description    string  `json:"description"`
+	IsSubscribed string `json:"isSubscribed"`
 	CreateTime     string  `json:"createTime"`
 	UpdateTime     string  `json:"updateTime"`
 }

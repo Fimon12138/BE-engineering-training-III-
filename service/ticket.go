@@ -19,6 +19,24 @@ func GetTicket(req request.GetTicketRequest) (response.GetTicketResponse, error)
 		return response.GetTicketResponse{}, err
 	}
 
+	if req.UserID != "" {
+		filter := model.Favorite{
+			UserID: req.UserID,
+			TicketID: ticket.ID,
+		}
+		isFavorite, err := model.MatchFavorite(filter)
+		if err != nil {
+			log.Errorf("Failed to matchFavorite userID[%v] ticketID[%v]", req.UserID, ticket.ID)
+			return resp, err
+		}
+
+		if isFavorite {
+			resp.IsSubscribed = enum.YES
+		}	else {
+			resp.IsSubscribed = enum.NO
+		}
+	}
+
 	resp.Load(ticket)
 	return resp, nil
 }
