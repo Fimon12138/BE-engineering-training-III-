@@ -21,7 +21,7 @@ type Order struct {
 func GetOrder(ID string) (Order, error) {
 	var order Order
 
-	err := config.DB.Where(Order{ID: ID}).Find(&order).Error
+	err := config.DB.Table(enum.TABLENAME_ORDER).Where(Order{ID: ID}).Find(&order).Error
 	return order, err
 }
 

@@ -20,7 +20,7 @@ type User struct {
 func GetUser(ID string) (User, error) {
 	var user User
 
-	err := config.DB.Where(User{ID: ID}).Find(&user).Error
+	err := config.DB.Table(enum.TABLENAME_USER).Where(User{ID: ID}).Find(&user).Error
 	return user, err
 }
 

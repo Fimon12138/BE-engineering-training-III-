@@ -17,7 +17,7 @@ type Account struct {
 
 func GetAccount(accountName string) (Account, error) {
 	var account Account
-	database := config.DB.Where(&Account{Name: accountName})
+	database := config.DB.Table(enum.TABLENAME_ACCOUNT).Where(&Account{Name: accountName})
 
 	database.Find(&account)
 	if database.Error != nil {
@@ -36,7 +36,7 @@ func CreateAccount(newAccount Account) (Account, error) {
 }
 
 func UpdateAccount(newAccount Account) error {
-	return config.DB.Where(&Account{Name: newAccount.Name}).Update(newAccount).Error
+	return config.DB.Table(enum.TABLENAME_ACCOUNT).Where(&Account{Name: newAccount.Name}).Update(newAccount).Error
 }
 
 func DeleteAccount(accountName string) error {

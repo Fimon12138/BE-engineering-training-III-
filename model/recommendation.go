@@ -16,7 +16,7 @@ type Recommendation struct {
 func GetRecommendationByLocation(location int) (Recommendation, error) {
 	var recommendation Recommendation
 
-	err := config.DB.Where(&Recommendation{Location: location}).Find(&recommendation).Error
+	err := config.DB.Table(enum.TABLENAME_RECOMMENDATION).Where(&Recommendation{Location: location}).Find(&recommendation).Error
 	if err != nil {
 		return Recommendation{}, err
 	}

@@ -15,7 +15,7 @@ type Zjpay struct {
 
 func GetZjpay(ID string) (Zjpay, error) {
 	var zjpay Zjpay
-	err := config.DB.Where(&Zjpay{ID: ID}).Find(&zjpay).Error
+	err := config.DB.Table(enum.TABLENAME_ZJPAY).Where(&Zjpay{ID: ID}).Find(&zjpay).Error
 	return zjpay, err
 }
 func CreateZjpay(newZjpay Zjpay) (Zjpay, error) {
