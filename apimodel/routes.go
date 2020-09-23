@@ -41,7 +41,7 @@ func RegisterRoutes(router *gin.Engine) {
 
 		v2.POST("/user/info", handler.GetUser)
 		v2.POST("/user", handler.CreateUser)
-		v2.PUT("/user", handler.UpdateUser)
+		v2.POST("/user/update", handler.UpdateUser)
 		v2.POST("/user/delete", handler.DeleteUser)
 
 		v2.POST("/zjpay/info", handler.GetZjPay)
