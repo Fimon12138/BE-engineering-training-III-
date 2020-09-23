@@ -13,7 +13,7 @@ import (
 func GetZjPay(ctx *gin.Context) {
 	var req request.GetZjpayRequest
 
-	if err := ctx.ShouldBindJSON(&req); err != nil {
+	if err := ctx.ShouldBindJSON(&req); err != nil || req.ID == "" {
 		msg := fmt.Sprintf("Failed to parse GetZjpay req[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))

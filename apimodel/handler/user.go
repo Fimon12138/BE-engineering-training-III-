@@ -14,7 +14,7 @@ import (
 func GetUser(ctx *gin.Context) {
 	var req request.GetUserRequest
 
-	if err := ctx.ShouldBindJSON(&req); err != nil {
+	if err := ctx.ShouldBindJSON(&req); err != nil || req.ID == ""{
 		msg := fmt.Sprintf("Failed to parse user ID in GetUser[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
@@ -87,7 +87,7 @@ func UpdateUser(ctx *gin.Context) {
 
 func DeleteUser(ctx *gin.Context) {
 	var req request.DeleteUserRequest
-	if err := ctx.ShouldBindJSON(&req); err != nil {
+	if err := ctx.ShouldBindJSON(&req); err != nil || req.ID == "" {
 		msg := fmt.Sprintf("Failed to parse user ID in DeleteUser[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))

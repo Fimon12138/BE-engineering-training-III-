@@ -67,11 +67,12 @@ func UpdateOrder(req request.UpdateOrderRequest) error {
 		log.Errorf("Failed to get order by ID[%v]: %v", req.ID, err)
 		return nil
 	}
+	newOrder := order
 
-	order.Status = req.Status
-	order.UpdateTime = time.Now()
+	newOrder.Status = req.Status
+	newOrder.UpdateTime = time.Now()
 
-	err = model.UpdateOrder(order)
+	err = model.UpdateOrder(order, newOrder)
 	if err != nil {
 		log.Errorf("Failed to update order[%v]: %v", order, err)
 		return err
@@ -150,9 +151,9 @@ func PayForOrder(req request.PayForOrderRequest) error {
 		log.Errorf(msg)
 		return errors.InternalError(msg)
 	}
-
-	order.Status = enum.ORDER_STATUS_FINISHED
-	order.UpdateTime = time.Now()
+	newOrder := order
+	newOrder.Status = enum.ORDER_STATUS_FINISHED
+	newOrder.UpdateTime = time.Now()
 
 	ticket.Count -= ticket.Count
 	ticket.UpdateTime = time.Now()
@@ -160,7 +161,7 @@ func PayForOrder(req request.PayForOrderRequest) error {
 	zjpay.Money -= order.Price * float32(order.Count)
 	zjpay.UpdateTime = time.Now()
 
-	err = model.UpdateOrder(order)
+	err = model.UpdateOrder(order, newOrder)
 	if err != nil {
 		log.Errorf("Failed to update order by req[%v]: %v", order, err)
 		return err

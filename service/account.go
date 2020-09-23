@@ -88,14 +88,14 @@ func LogIn(req request.LogIn) (response.LogIn, error) {
 func SignUp(req request.SignUp) error {
 	if req.Type == "user" {
 		user := model.User{
-			ID: util.NewUUIDString("user"),
-			Nickname: util.NewUUIDString("")[0: 36],
-			Telephone: req.Telephone,
+			ID:         util.NewUUIDString("user"),
+			Nickname:   util.NewUUIDString("")[0:36],
+			Telephone:  req.Telephone,
 			CreateTime: time.Now(),
 			UpdateTime: time.Now(),
 		}
 
-		newUser, err := model.CreateUser(user)
+		newUser, err := CreateUserWithZjpay(user)
 		if err != nil {
 			log.Errorf("Failed to create user[%v] in DB: %v", user, err)
 			return err

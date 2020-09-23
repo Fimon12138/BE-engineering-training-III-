@@ -90,9 +90,10 @@ func UpdateComment(req request.UpdateCommentRequest) error {
 		return err
 	}
 
-	comment.Content = req.Content
-	comment.UpdateTime = time.Now()
-	err = model.UpdateComment(comment)
+	newComment := comment
+	newComment.Content = req.Content
+	newComment.UpdateTime = time.Now()
+	err = model.UpdateComment(comment, newComment)
 
 	if err != nil {
 		log.Errorf("Failed to update comment[%v]: %v", comment, err)

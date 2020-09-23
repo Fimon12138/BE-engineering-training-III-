@@ -24,15 +24,8 @@ func GetUser(req request.GetUserRequest) (response.GetUserResponse, error) {
 
 func CreateUser(req request.CreateUserRequest) (response.CreateUserResponse, error) {
 	var resp response.CreateUserResponse
-
-	zjpay, err := CreateZjPay()
-	if err != nil {
-		log.Errorf("Failed to Createzjpay in database:%v", err)
-		return resp, err
-	}
 	user := model.User{
 		ID:         util.NewUUIDString(enum.TABLENAME_USER),
-		PayID:      zjpay.ID,
 		Nickname:   req.Nickname,
 		Avatar:     req.Avatar,
 		Telephone:  req.Telephone,
@@ -41,9 +34,9 @@ func CreateUser(req request.CreateUserRequest) (response.CreateUserResponse, err
 		UpdateTime: time.Now(),
 	}
 
-	newUser, err := model.CreateUser(user)
+	newUser, err := CreateUserWithZjpay(user)
 	if err != nil {
-		log.Errorf("Failed to CreateUser in database req[%v]:%v", req, err)
+		log.Errorf("Failed to create UserWithZjpay: %v", err)
 		return resp, err
 	}
 	resp.Load(newUser)
@@ -69,6 +62,9 @@ func UpdateUser(req request.UpdateUserRequest) error {
 		log.Errorf("Failed to UpdateUser in database req[%v]:%v", req, err)
 		return err
 	}
+	if req.NickName != "" {
+		model.UpdateOrder(model.Order{UserID: user.ID}, model.Order{UserName: user.Nickname})
+	}
 	return nil
 }
 
@@ -80,6 +76,21 @@ func DeleteUser(req request.DeleteUserRequest) error {
 	}
 
 	return nil
+}
+
+func CreateUserWithZjpay(user model.User) (model.User, error){
+	zjpay, err := CreateZjPay()
+	if err != nil {
+		log.Errorf("Failed to create Zjpay : %v", err)
+		return model.User{}, err
+	}
+	user.PayID = zjpay.ID
+	newUser, err := model.CreateUser(user)
+	if err != nil {
+		log.Errorf("Failed to create user[%v]: %v", user, err)
+		return model.User{}, err
+	}
+	return newUser, nil
 }
 
 func GetUserByID(ID string) (model.User, error) {

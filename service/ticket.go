@@ -105,14 +105,15 @@ func UpdateTicket(req request.UpdateTicketRequest) error {
 		return err
 	}
 
-	ticket.Name = req.Name
-	ticket.Price = req.Price
-	ticket.Count = req.Count
+	newTicket := ticket
+	newTicket.Name = req.Name
+	newTicket.Price = req.Price
+	newTicket.Count = req.Count
 	if req.SubscribeIncrease {
-		ticket.SubscribeCount++
+		newTicket.SubscribeCount++
 	}
 
-	err = model.UpdateTicket(ticket)
+	err = model.UpdateTicket(newTicket)
 	if err != nil {
 		log.Errorf("Failed to update ticket[%v]: %v", ticket, err)
 		return err

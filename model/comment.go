@@ -54,8 +54,8 @@ func ListComment(filter Comment, p Pagination, orderf OrderFilter) ([]Comment, i
 	return comments, totalCount, nil
 }
 
-func UpdateComment(newComment Comment) error {
-	return config.DB.Table(enum.TABLENAME_COMMENT).Where(&Comment{ID: newComment.ID}).Update(newComment).Error
+func UpdateComment(filter Comment, newComment Comment) error {
+	return config.DB.Table(enum.TABLENAME_COMMENT).Where(&filter).Update(newComment).Error
 }
 
 func DeleteComment(ID string) error {

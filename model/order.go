@@ -51,8 +51,8 @@ func ListOrders(filter Order, p Pagination, orderf OrderFilter) ([]Order, int, e
 	return orders, totalCount, nil
 }
 
-func UpdateOrder(newOrder Order) error {
-	return config.DB.Table(enum.TABLENAME_ORDER).Where(&Order{ID: newOrder.ID}).Update(newOrder).Error
+func UpdateOrder(filter, newOrder Order) error {
+	return config.DB.Table(enum.TABLENAME_ORDER).Where(&filter).Update(newOrder).Error
 }
 
 func DeleteOrder(ID string) error {
