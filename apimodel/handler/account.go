@@ -96,7 +96,7 @@ func DeleteAccount(ctx *gin.Context) {
 
 func LogIn(ctx *gin.Context) {
 	var req request.LogIn
-	if err := ctx.ShouldBindJSON(req); err != nil {
+	if err := ctx.ShouldBindJSON(&req); err != nil {
 		msg := fmt.Sprintf("Failed to parse login req:[%v]", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
