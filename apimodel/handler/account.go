@@ -124,5 +124,11 @@ func SignUp(ctx *gin.Context) {
 		return
 	}
 
+	if err := validate.CheckSignup(req); err != nil {
+		log.Errorf("Failed to validate req[%v]: &v", err, req)
+		errors.AbortWithWriteErrorResponse(ctx, err)
+		return
+	}
 
+	ctx.AbortWithStatus(http.StatusOK)
 }
