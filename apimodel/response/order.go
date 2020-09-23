@@ -1,7 +1,7 @@
 package response
 
 import (
-	model2 "tickethub_service/model"
+	"tickethub_service/model"
 	"tickethub_service/util"
 )
 
@@ -15,6 +15,18 @@ type Order struct {
 	Price      float32 `json:"price"`
 	CreateTime string  `json:"createTime"`
 	UpdateTime string  `json:"updateTime"`
+}
+
+type OrderWithTicket struct {
+	Order
+	Ticket
+}
+
+type ListOrderWithTicket struct {
+	PageNo     int     `json:"pageNo"`
+	PageSize   int     `json:"pageSize"`
+	Result     []OrderWithTicket `json:"result"`
+	TotalCount int     `json:"totalCount"`
 }
 
 type GetOrderResponse struct {
@@ -32,7 +44,7 @@ type ListOrderResponse struct {
 	TotalCount int     `json:"totalCount"`
 }
 
-func (o *Order) Load(order model2.Order) {
+func (o *Order) Load(order model.Order) {
 	o.ID = order.ID
 	o.TicketID = order.TicketID
 	o.TicketName = order.TicketName

@@ -11,6 +11,32 @@ import (
 	"tickethub_service/util/log"
 )
 
+func ListOrderWithTicket(ctx *gin.Context) {
+	var req request.ListOrderRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		msg := fmt.Sprintf("Failed to parse ListOrder req[%v]: %v", ctx.Request, err)
+		log.Errorf(msg)
+		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
+		return
+	}
+
+	if err := validate.CheckListOrder(&req); err != nil {
+		log.Errorf("Failed to validate ListOrder req[%v]: %v", req, err)
+		errors.AbortWithWriteErrorResponse(ctx, err)
+		return
+	}
+
+	resp, err := service.ListOrder(req)
+	if err != nil {
+		msg := fmt.Sprintf("Failed to handle ListOrder req[%v]: %v", req, err)
+		log.Errorf(msg)
+		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
+		return
+	}
+
+	ctx.AbortWithStatusJSON(http.StatusOK, resp)
+}
+
 func CreateOrder(ctx *gin.Context) {
 	var req request.CreateOrderRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {

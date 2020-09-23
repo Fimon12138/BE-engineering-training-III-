@@ -91,6 +91,53 @@ func DeleteOrder(req request.DeleteOrderRequest) error {
 	return nil
 }
 
+func ListOrderWithTickets (req request.ListOrderRequest) (response.ListOrderWithTicket, error) {
+	var resp response.ListOrderWithTicket
+
+	orderf := model.OrderFilter{
+		Field:     enum.ORDERBY_COMMON_UPDATETIME,
+		Direction: req.Order,
+	}
+
+	page := model.Pagination{
+		Offset: (req.PageNo - 1) * req.PageSize,
+		Size:   req.PageSize,
+	}
+
+	filter := model.Order{
+		UserID: req.UserID,
+		Status: req.Status,
+	}
+
+	orders, totalCount, err := model.ListOrders(filter, page, orderf)
+	if err != nil {
+		log.Errorf("Failed tp list orders by req[%v]: %v", req, err)
+		return resp, err
+	}
+	resp.PageNo = req.PageNo
+	resp.PageSize = req.PageSize
+	resp.Result = make([]response.OrderWithTicket, 0)
+	for _, order := range orders {
+		newOrder := response.Order{}
+		newOrder.Load(order)
+		ticket, err := model.GetTicket(order.TicketID)
+		if err != nil {
+			log.Errorf("Failed to get ticket by ID[%d]: %v", order.TicketID, err)
+			return resp, err
+		}
+		newTicket := response.Ticket{}
+		newTicket.Load(ticket)
+		newOrderWith := response.OrderWithTicket{
+				Order:newOrder,
+				Ticket:newTicket,
+			}
+		resp.Result = append(resp.Result, newOrderWith)
+	}
+	resp.TotalCount = totalCount
+
+	return resp, nil
+}
+
 func ListOrder(req request.ListOrderRequest) (response.ListOrderResponse, error) {
 	var resp response.ListOrderResponse
 
