@@ -118,7 +118,7 @@ func LogIn(ctx *gin.Context) {
 func SignUp(ctx *gin.Context) {
 	var req request.SignUp
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		msg := fmt.Sprintf("Failed to  parse signup req:[%v]", ctx.Request)
+		msg := fmt.Sprintf("Failed to  parse signup req:[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
@@ -128,6 +128,12 @@ func SignUp(ctx *gin.Context) {
 		log.Errorf("Failed to validate req[%v]: &v", err, req)
 		errors.AbortWithWriteErrorResponse(ctx, err)
 		return
+	}
+
+	if err := service.SignUp(req); err != nil {
+		msg := fmt.Sprintf("Failed to  handle signup req:[%v]: %v", req, err)
+		log.Errorf(msg)
+		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 	}
 
 	ctx.AbortWithStatus(http.StatusOK)
