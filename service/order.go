@@ -47,6 +47,7 @@ func CreateOrder(req request.CreateOrderRequest) (response.CreateOrderResponse, 
 		UserName:   user.Nickname,
 		Status:     enum.ORDER_STATUS_PROCESSING,
 		Price:      req.Price,
+		Count: req.Count,
 		CreateTime: time.Now(),
 		UpdateTime: time.Now(),
 	}
@@ -138,8 +139,14 @@ func PayForOrder(req request.PayForOrderRequest) error {
 		return err
 	}
 
-	if zjpay.Money < order.Price {
+	if zjpay.Money < order.Price * float32(order.Count) {
 		msg := fmt.Sprintf("Don't have enough money zjpay[%v] order[%v]", zjpay.Money, order.Price)
+		log.Errorf(msg)
+		return errors.InternalError(msg)
+	}
+
+	if ticket.Count < order.Count {
+		msg := fmt.Sprintf("Don't have enough ticket count[%v] order[%v]", ticket.Count, order.Count)
 		log.Errorf(msg)
 		return errors.InternalError(msg)
 	}
@@ -147,10 +154,10 @@ func PayForOrder(req request.PayForOrderRequest) error {
 	order.Status = enum.ORDER_STATUS_FINISHED
 	order.UpdateTime = time.Now()
 
-	ticket.Count -= 1
+	ticket.Count -= ticket.Count
 	ticket.UpdateTime = time.Now()
 
-	zjpay.Money -= order.Price
+	zjpay.Money -= order.Price * float32(order.Count)
 	zjpay.UpdateTime = time.Now()
 
 	err = model.UpdateOrder(order)

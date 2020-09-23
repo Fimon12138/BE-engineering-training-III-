@@ -8,6 +8,7 @@ type CreateOrderRequest struct {
 	TicketID string  `json:"ticketId" binding:"required"`
 	UserID   string  `json:"userId" binding:"required"`
 	Price    float32 `json:"price" binding:"required"`
+	Count int `json:"count" binding:"required"`
 }
 
 type ListOrderRequest struct {

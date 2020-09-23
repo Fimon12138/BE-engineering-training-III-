@@ -14,6 +14,7 @@ type Order struct {
 	UserName   string
 	Status     string
 	Price      float32
+	Count  int
 	CreateTime time.Time
 	UpdateTime time.Time
 }
