@@ -8,7 +8,7 @@ type CreateUserRequest struct {
 	Nickname    string `json:"nickname"`
 	Avatar      string `json:"avatar"`
 	Telephone   string `json:"telephone"`
-	Description string `json:"Description"`
+	Description string `json:"description"`
 }
 
 type UpdateUserRequest struct {

@@ -36,6 +36,7 @@ func CreateUser(req request.CreateUserRequest) (response.CreateUserResponse, err
 		Nickname:   req.Nickname,
 		Avatar:     req.Avatar,
 		Telephone:  req.Telephone,
+		Description: req.Description,
 		CreateTime: time.Now(),
 		UpdateTime: time.Now(),
 	}
