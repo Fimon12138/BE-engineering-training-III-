@@ -57,6 +57,25 @@ func ListOrder(ctx *gin.Context) {
 	ctx.AbortWithStatusJSON(http.StatusOK, resp)
 }
 
+func UpdateOrder(ctx *gin.Context) {
+	var req request.UpdateOrderRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		msg := fmt.Sprintf("Failed to parse UpdateOrder req[%v]: %v", ctx.Request, err)
+		log.Errorf(msg)
+		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
+		return
+	}
+
+	if err := service.UpdateOrder(req); err != nil {
+		msg := fmt.Sprintf("Failed to handle UpdateOrder req[%v]: %v", req, err)
+		log.Errorf(msg)
+		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
+		return
+	}
+
+	ctx.AbortWithStatus(http.StatusOK)
+}
+
 func DeleteOrder(ctx *gin.Context) {
 	var req request.DeleteOrderRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
