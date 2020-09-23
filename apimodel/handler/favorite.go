@@ -61,8 +61,8 @@ func ListFavorite(ctx *gin.Context) {
 func DeleteFavorite(ctx *gin.Context) {
 	var req request.DeleteFavoriteRequest
 
-	if req.ID = ctx.Param("id"); req.ID == "" {
-		msg := fmt.Sprintf("Failed to parse DeleteFavorite req[%v]", ctx.Request)
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		msg := fmt.Sprintf("Failed to parse DeleteFavorite req[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
@@ -70,7 +70,7 @@ func DeleteFavorite(ctx *gin.Context) {
 
 	err := service.DeleteFavorite(req)
 	if err != nil {
-		msg := fmt.Sprintf("Failed to DeleteFavoriteby ID[%v]: %v", req.ID, err)
+		msg := fmt.Sprintf("Failed to DeleteFavoriteby req[%v]: %v", req, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return

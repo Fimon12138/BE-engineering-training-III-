@@ -90,22 +90,17 @@ func ListFavorite(req request.ListFavoriteRequest) (response.ListFavoriteRespons
 }
 
 func DeleteFavorite(req request.DeleteFavoriteRequest) error {
-	favorite, err := model.GetFavorite(req.ID)
+	ticket, err := GetTicketByID(req.TicketID)
 	if err != nil {
-		log.Errorf("Failed to get favorite by ID[%v]: %v", req.ID, err)
+		log.Errorf("Failed to get ticket by ID[%v]: %v", req.TicketID, err)
 		return err
 	}
-	ticket, err := GetTicketByID(favorite.TicketID)
+	err = model.DeleteFavorite(model.Favorite{UserID: req.UserID,
+												TicketID: req.TicketID})
 	if err != nil {
-		log.Errorf("Failed to get ticket by ID[%v]: %v", favorite.TicketID, err)
+		log.Errorf("Failed to delete favorite by req[%v]: %v", req, err)
 		return err
 	}
-	err = model.DeleteFavorite(req.ID)
-	if err != nil {
-		log.Errorf("Failed to delete favorite by ID[%v]: %v", req.ID, err)
-		return err
-	}
-
 	ticket.SubscribeCount--
 	ticket.UpdateTime = time.Now()
 	err = model.UpdateTicket(ticket)

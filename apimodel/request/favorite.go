@@ -1,7 +1,7 @@
 package request
 
 type CreateFavoriteRequest struct {
-	UserID   string `json:"id" binding:"required"`
+	UserID   string `json:"userId" binding:"required"`
 	TicketID string `json:"ticketId" binding:"required"`
 }
 
@@ -14,5 +14,6 @@ type ListFavoriteRequest struct {
 }
 
 type DeleteFavoriteRequest struct {
-	ID string `json:"id"`
+	UserID string `json:"userId"`
+	TicketID string `json:"ticketId"`
 }
