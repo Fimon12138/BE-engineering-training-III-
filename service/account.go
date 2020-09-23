@@ -7,6 +7,8 @@ import (
 	"tickethub_service/util/log"
 	"time"
 	"tickethub_service/util"
+	"fmt"
+	"tickethub_service/util/errors"
 )
 
 func GetAccount(req request.GetAccountRequest) (response.GetAccountResponse, error) {
@@ -72,8 +74,10 @@ func LogIn(req request.LogIn) (response.LogIn, error) {
 	var resp response.LogIn
 	account, err := model.GetAccount(req.Name)
 	if err != nil || account.Password != req.Password {
-		log.Errorf("Failed to login: %v", req.Name, err)
-		return resp, err
+
+		msg := fmt.Sprintf("Failed to login name[%v] password[%v]: %v", req.Name, req.Password, err)
+		log.Errorf(msg)
+		return resp, errors.InternalError(msg)
 	}
 	//TODO add token
 	resp.Token = ""
