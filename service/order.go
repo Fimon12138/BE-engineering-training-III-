@@ -47,7 +47,7 @@ func CreateOrder(req request.CreateOrderRequest) (response.CreateOrderResponse, 
 		UserName:   user.Nickname,
 		Status:     enum.ORDER_STATUS_PROCESSING,
 		Price:      req.Price,
-		Count: req.Count,
+		Count:      req.Count,
 		CreateTime: time.Now(),
 		UpdateTime: time.Now(),
 	}
@@ -81,7 +81,7 @@ func UpdateOrder(req request.UpdateOrderRequest) error {
 	return nil
 }
 
-func DeleteOrder(req request.DeleteOrderRequest) error{
+func DeleteOrder(req request.DeleteOrderRequest) error {
 	err := model.DeleteOrder(req.ID)
 	if err != nil {
 		log.Errorf("Failed to delete order:[%v]", err)
@@ -150,7 +150,7 @@ func PayForOrder(req request.PayForOrderRequest) error {
 		return err
 	}
 
-	if zjpay.Money < order.Price * float32(order.Count) {
+	if zjpay.Money < order.Price*float32(order.Count) {
 		msg := fmt.Sprintf("Don't have enough money zjpay[%v] order[%v]", zjpay.Money, order.Price)
 		log.Errorf(msg)
 		return errors.InternalError(msg)
@@ -207,7 +207,7 @@ func ListFinishedTicket(req request.ListFinishedTicketRequest) (response.ListFin
 
 	page := model.Pagination{
 		Offset: 0,
-		Size: 11111111,
+		Size:   11111111,
 	}
 
 	orders, _, err := model.ListOrders(filter, page, orderf)
@@ -232,12 +232,12 @@ func ListFinishedTicket(req request.ListFinishedTicketRequest) (response.ListFin
 		}
 	}
 
-	if totalCount <= req.PageNo * req.PageSize && totalCount != 0{
-		resp.Result = tmp[(req.PageNo - 1) * req.PageSize: ]
+	if totalCount <= req.PageNo*req.PageSize && totalCount != 0 {
+		resp.Result = tmp[(req.PageNo-1)*req.PageSize:]
 	}
 
-	if totalCount > req.PageNo * req.PageSize {
-		resp.Result = tmp[(req.PageNo - 1) * req.PageSize: req.PageNo * req.PageSize]
+	if totalCount > req.PageNo*req.PageSize {
+		resp.Result = tmp[(req.PageNo-1)*req.PageSize : req.PageNo*req.PageSize]
 	}
 
 	resp.PageNo = req.PageNo

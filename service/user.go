@@ -25,13 +25,13 @@ func GetUser(req request.GetUserRequest) (response.GetUserResponse, error) {
 func CreateUser(req request.CreateUserRequest) (response.CreateUserResponse, error) {
 	var resp response.CreateUserResponse
 	user := model.User{
-		ID:         util.NewUUIDString(enum.TABLENAME_USER),
-		Nickname:   req.Nickname,
-		Avatar:     req.Avatar,
-		Telephone:  req.Telephone,
+		ID:          util.NewUUIDString(enum.TABLENAME_USER),
+		Nickname:    req.Nickname,
+		Avatar:      req.Avatar,
+		Telephone:   req.Telephone,
 		Description: req.Description,
-		CreateTime: time.Now(),
-		UpdateTime: time.Now(),
+		CreateTime:  time.Now(),
+		UpdateTime:  time.Now(),
 	}
 
 	newUser, err := CreateUserWithZjpay(user)
@@ -78,7 +78,7 @@ func DeleteUser(req request.DeleteUserRequest) error {
 	return nil
 }
 
-func CreateUserWithZjpay(user model.User) (model.User, error){
+func CreateUserWithZjpay(user model.User) (model.User, error) {
 	zjpay, err := CreateZjPay()
 	if err != nil {
 		log.Errorf("Failed to create Zjpay : %v", err)

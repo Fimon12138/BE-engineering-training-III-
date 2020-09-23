@@ -1,14 +1,14 @@
 package service
 
 import (
+	"fmt"
 	"tickethub_service/apimodel/request"
 	"tickethub_service/apimodel/response"
 	"tickethub_service/model"
+	"tickethub_service/util"
+	"tickethub_service/util/errors"
 	"tickethub_service/util/log"
 	"time"
-	"tickethub_service/util"
-	"fmt"
-	"tickethub_service/util/errors"
 )
 
 func GetAccount(req request.GetAccountRequest) (response.GetAccountResponse, error) {
@@ -116,11 +116,11 @@ func SignUp(req request.SignUp) error {
 		}
 		return nil
 
-		} else {
+	} else {
 		merchant := model.Merchant{
-			ID: util.NewUUIDString("user"),
-			Nickname: util.NewUUIDString("")[0: 36],
-			Telephone: req.Telephone,
+			ID:         util.NewUUIDString("user"),
+			Nickname:   util.NewUUIDString("")[0:36],
+			Telephone:  req.Telephone,
 			CreateTime: time.Now(),
 			UpdateTime: time.Now(),
 		}

@@ -6,9 +6,9 @@ import (
 	"os"
 	"tickethub_service/apimodel"
 	"tickethub_service/config"
+	"tickethub_service/midderware"
 	"tickethub_service/util"
 	"tickethub_service/util/log"
-	"tickethub_service/midderware"
 )
 
 func main() {

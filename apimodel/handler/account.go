@@ -14,7 +14,7 @@ import (
 func GetAccount(ctx *gin.Context) {
 	var req request.GetAccountRequest
 
-	if err :=ctx.ShouldBindJSON(&req); err != nil || req.AccountName == "" {
+	if err := ctx.ShouldBindJSON(&req); err != nil || req.AccountName == "" {
 		msg := fmt.Sprintf("Failed to parse account name in GetAccount[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
@@ -78,7 +78,7 @@ func UpdateAccount(ctx *gin.Context) {
 
 func DeleteAccount(ctx *gin.Context) {
 	var req request.DeleteAccountRequest
-	if  err := ctx.ShouldBindJSON(&req); err != nil || req.Name == ""  {
+	if err := ctx.ShouldBindJSON(&req); err != nil || req.Name == "" {
 		msg := fmt.Sprintf("Failed to parse account name in DeleteAccount[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))

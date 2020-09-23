@@ -16,7 +16,7 @@ func CheckCreateAccount(req request.CreateAccountRequest) error {
 	return nil
 }
 
-func CheckSignup(req request.SignUp) error{
+func CheckSignup(req request.SignUp) error {
 	if !util.CheckTelephone(req.Telephone) {
 		msg := fmt.Sprintf("The content og Telephone[%v] wrong", req.Telephone)
 		return errors.InvalidRequestError(msg)

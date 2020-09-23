@@ -1,7 +1,7 @@
 package request
 
 type GetTicketRequest struct {
-	ID string `json:"id"`
+	ID     string `json:"id"`
 	UserID string `json:"userId"`
 }
 
@@ -33,6 +33,7 @@ type ListTicketRequest struct {
 	OrderBy    string `json:"orderBy"`
 	Order      string `json:"order"`
 	NameFilter string `json:"nameFilter"`
+	UserID     string `json:"userId"`
 	Type       string `json:"type"`
 }
 

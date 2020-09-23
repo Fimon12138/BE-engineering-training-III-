@@ -21,7 +21,7 @@ func GetTicket(req request.GetTicketRequest) (response.GetTicketResponse, error)
 
 	if req.UserID != "" {
 		filter := model.Favorite{
-			UserID: req.UserID,
+			UserID:   req.UserID,
 			TicketID: ticket.ID,
 		}
 		isFavorite, err := model.MatchFavorite(filter)
@@ -32,7 +32,7 @@ func GetTicket(req request.GetTicketRequest) (response.GetTicketResponse, error)
 
 		if isFavorite {
 			resp.IsSubscribed = enum.YES
-		}	else {
+		} else {
 			resp.IsSubscribed = enum.NO
 		}
 	}
@@ -69,6 +69,23 @@ func ListTicket(req request.ListTicketRequest) (response.ListTicketResponse, err
 	resp.Result = make([]response.Ticket, 0)
 	for _, ticket := range tickets {
 		newTicket := response.Ticket{}
+		if req.UserID != "" {
+			filter := model.Favorite{
+				UserID:   req.UserID,
+				TicketID: ticket.ID,
+			}
+		isFavorite, err := model.MatchFavorite(filter)
+		if err != nil {
+			log.Errorf("Failed to matchFavorite userID[%v] ticketID[%v]", req.UserID, ticket.ID)
+			return resp, err
+		}
+
+		if isFavorite {
+			newTicket.IsSubscribed = enum.YES
+		} else {
+			newTicket.IsSubscribed = enum.NO
+		}
+	}
 		newTicket.Load(ticket)
 		resp.Result = append(resp.Result, newTicket)
 	}

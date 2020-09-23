@@ -36,7 +36,6 @@ const (
 	TICKET_TYPE_SPORT       = "sport"
 	TICKET_TYPE_EXHIBITION_ = "exhibition"
 	TICKET_TYPE_OPERA       = "opera"
-
 )
 
 func GetAccountType() []string {
@@ -62,4 +61,3 @@ func GetTicketOrderByValues() []string {
 func GetTicketTypeValues() []string {
 	return []string{TICKET_TYPE_CONCERT, TICKET_TYPE_SPORT, TICKET_TYPE_EXHIBITION_, TICKET_TYPE_OPERA}
 }
-

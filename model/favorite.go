@@ -64,4 +64,3 @@ func MatchFavorite(filter Favorite) (bool, error) {
 	}
 	return true, nil
 }
-

@@ -14,7 +14,7 @@ import (
 func GetUser(ctx *gin.Context) {
 	var req request.GetUserRequest
 
-	if err := ctx.ShouldBindJSON(&req); err != nil || req.ID == ""{
+	if err := ctx.ShouldBindJSON(&req); err != nil || req.ID == "" {
 		msg := fmt.Sprintf("Failed to parse user ID in GetUser[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
@@ -63,7 +63,7 @@ func CreateUser(ctx *gin.Context) {
 func UpdateUser(ctx *gin.Context) {
 	var req request.UpdateUserRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		msg := fmt.Sprintf("Failed to parse UpdateUser req[%v]: %v",ctx.Request, err)
+		msg := fmt.Sprintf("Failed to parse UpdateUser req[%v]: %v", ctx.Request, err)
 		log.Errorf(msg)
 		errors.AbortWithWriteErrorResponse(ctx, errors.InternalError(msg))
 		return
