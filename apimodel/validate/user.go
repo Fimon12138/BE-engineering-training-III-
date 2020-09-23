@@ -17,7 +17,7 @@ func CheckCreateUser(req request2.CreateUserRequest) error {
 }
 
 func CheckUpdateUser(req request2.UpdateUserRequest) error {
-	if !util.CheckTelephone(req.Telephone) || req.Telephone == "" {
+	if !util.CheckTelephone(req.Telephone) && req.Telephone != "" {
 		msg := fmt.Sprintf("Tellephone content[%v] wrong ", req.Telephone)
 		return errors.InvalidRequestError(msg)
 	}
