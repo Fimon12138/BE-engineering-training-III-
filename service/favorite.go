@@ -79,6 +79,7 @@ func ListFavorite(req request.ListFavoriteRequest) (response.ListFavoriteRespons
 
 		newTicket := response.Ticket{}
 		newTicket.Load(ticket)
+		newTicket.IsSubscribed = enum.YES
 		resp.Result = append(resp.Result, newTicket)
 	}
 
