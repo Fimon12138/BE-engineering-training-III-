@@ -69,7 +69,7 @@ func ListFavorite(req request.ListFavoriteRequest) (response.ListFavoriteRespons
 		return resp, nil
 	}
 
-	resp.Result = make([]response.DisplayFavorite, 0)
+	resp.Result = make([]response.Ticket, 0)
 	for _, favorite := range favorites {
 		ticket, err := GetTicketByID(favorite.TicketID)
 		if err != nil {
@@ -77,9 +77,9 @@ func ListFavorite(req request.ListFavoriteRequest) (response.ListFavoriteRespons
 			return resp, err
 		}
 
-		displayFavorite := response.DisplayFavorite{}
-		displayFavorite.Load(ticket, favorite)
-		resp.Result = append(resp.Result, displayFavorite)
+		newTicket := response.Ticket{}
+		newTicket.Load(ticket)
+		resp.Result = append(resp.Result, newTicket)
 	}
 
 	resp.PageNo = req.PageNo
